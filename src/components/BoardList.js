@@ -1,15 +1,16 @@
-import React from 'react';
-import Board from './Board.js';
+import React from "react";
+import Board from "./Board";
 
 const BoardList = () => {
   return (
     <section>
       <ul>
-        <li><Board></li>
+        <li>
+          <Board />
+        </li>
       </ul>
     </section>
-
-  )
+  );
 };
 
 export default BoardList;
