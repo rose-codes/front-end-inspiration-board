@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import DisplayBoard from "./components/DisplayBoard.js";
 import NewBoardForm from "./components/NewBoardForm.js";
 import DisplayCards from "./components/DisplayCards.js";
@@ -12,17 +12,18 @@ import "./App.css";
 // ...
 
 function App() {
+  const [selectedBoard, updateSelectedBoard] = useState("");
   return (
     <div className="App">
       <main>
         <div>
-          <DisplayBoard />
+          <DisplayBoard selectedBoardName={selectedBoard} />
         </div>
         <div>
-          <NewBoardForm />
+          <NewBoardForm selectedBoardName={selectedBoard} />
         </div>
         <div>
-          <DisplayCards />
+          <DisplayCards selectedBoardName={selectedBoard} />
         </div>
         <div>
           <NewCardForm />

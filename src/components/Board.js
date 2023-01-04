@@ -1,10 +1,18 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 
-const Board = () => {
+const Board = (props) => {
+  //onClickHandler: handle click on Board Name --> update selectedBoardName --> pass it back up to the App
   return (
-    <div>Board Name</div>
-  )
-  
+    <section>
+      <div>Board Name 1</div>
+      <div>Other Board Name</div>
+    </section>
+  );
+};
+
+Board.propTypes = {
+  selectedBoardName: PropTypes.string.isRequired,
 };
 
 export default Board;
