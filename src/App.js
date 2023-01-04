@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import DisplayBoard from "./components/DisplayBoard.js";
 import NewBoardForm from "./components/NewBoardForm.js";
 import DisplayCards from "./components/DisplayCards.js";
 import NewCardForm from "./components/CreateNewCard.js";
+import BoardList from "./components/BoardList.js";
 
 import "./App.css";
 
@@ -11,19 +11,31 @@ import "./App.css";
 // axios.get(`${process.env.REACT_APP_BACKEND_URL}/boards`, {
 // ...
 
+//const boardCards = [0, 1, 2, 3] --> each board has a key/id that corresponds to the index of this array
+const boardsList = [
+  { boardName: "Pick-Me-Ups", cards: [{ content: "You are loved" }] },
+  { boardName: "Reminders", cards: [{ content: "Pick up " }] },
+];
 function App() {
+  //selectedBoard will be passed down to DisplayBoard --> BoardList --> Board
+  //selectedBoard will be passed down to DisplayCards --> CardList --> Card
   const [selectedBoard, updateSelectedBoard] = useState("");
+  //boardsData will be passed down to DisplayCards --> CardList --> Card
+  const [boardsData, updatedBoardsData] = useState(boardsList);
   return (
     <div className="App">
       <main>
         <div>
-          <DisplayBoard selectedBoardName={selectedBoard} />
+          <BoardList selectedBoardName={selectedBoard} />
         </div>
         <div>
           <NewBoardForm selectedBoardName={selectedBoard} />
         </div>
         <div>
-          <DisplayCards selectedBoardName={selectedBoard} />
+          <DisplayCards
+            boardsInfo={boardsData}
+            selectedBoardName={selectedBoard}
+          />
         </div>
         <div>
           <NewCardForm />
