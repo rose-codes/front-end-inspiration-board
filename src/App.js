@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import NewBoardForm from "./components/NewBoardForm.js";
-import DisplayCards from "./components/DisplayCards.js";
+import CardList from "./components/CardList";
 import NewCardForm from "./components/CreateNewCard.js";
 import BoardList from "./components/BoardList.js";
 
@@ -13,9 +13,40 @@ import "./App.css";
 
 //const boardCards = [0, 1, 2, 3] --> each board has a key/id that corresponds to the index of this array
 const boardsList = [
-  { boardName: "Pick-Me-Ups", cards: [{ content: "You are loved" }] },
-  { boardName: "Reminders", cards: [{ content: "Pick up " }] },
+  {
+    id: 1,
+    title: "Reminders",
+    owner: "Simon",
+    card: [
+      {
+        id: 1,
+        message: "Hello",
+      },
+      {
+        id: 2,
+        message: "You're strong and have good taste",
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "Affirmations",
+    owner: "Claire",
+    card: [],
+  },
 ];
+
+// const cardList = [
+//   {
+//     id: 1,
+//     message: "Hello"
+//   },
+//   {
+//     id: 2,
+//     message: "You're strong and have good taste"
+//   }
+// ];
+
 function App() {
   //selectedBoard will be passed down to DisplayBoard --> BoardList --> Board
   //selectedBoard will be passed down to DisplayCards --> CardList --> Card
@@ -24,18 +55,18 @@ function App() {
   const [boardsData, updatedBoardsData] = useState(boardsList);
   return (
     <div className="App">
+      <header>
+        <h1>Inspiration Board</h1>
+      </header>
       <main>
         <div>
-          <BoardList selectedBoardName={selectedBoard} />
+          <BoardList selectedBoardName={selectedBoard} boardData={boardsData} />
         </div>
         <div>
           <NewBoardForm selectedBoardName={selectedBoard} />
         </div>
         <div>
-          <DisplayCards
-            boardsInfo={boardsData}
-            selectedBoardName={selectedBoard}
-          />
+          <CardList boardData={boardsData} selectedBoardName={selectedBoard} />
         </div>
         <div>
           <NewCardForm />

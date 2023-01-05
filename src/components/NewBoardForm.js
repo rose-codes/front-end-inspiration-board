@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+
+const kDefaultFormState = {
+  title: "",
+  owner: "",
+};
 
 const NewBoardForm = () => {
+  const [formField, setFormField] = useState(kDefaultFormState);
   return (
     <section>
       <h2>Create A New Board</h2>
