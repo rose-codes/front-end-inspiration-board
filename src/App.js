@@ -53,6 +53,20 @@ function App() {
   const [selectedBoard, updateSelectedBoard] = useState("");
   //boardsData will be passed down to DisplayCards --> CardList --> Card
   const [boardsData, updatedBoardsData] = useState(boardsList);
+
+  const createBoard = (newBoard) => {
+    const newBoardList = [...boardsData];
+
+    const nextId = Math.max(...newBoardList.map((board) => board.id)) + 1;
+    const newlyCreatedBoard = {
+      id: nextId,
+      title: newBoard.title,
+      owner: newBoard.owner,
+      card: [],
+    };
+    newBoardList.push(newlyCreatedBoard);
+    updatedBoardsData(newBoardList);
+  };
   return (
     <div className="App">
       <header>
@@ -63,7 +77,7 @@ function App() {
           <BoardList selectedBoardName={selectedBoard} boardData={boardsData} />
         </div>
         <div>
-          <NewBoardForm selectedBoardName={selectedBoard} />
+          <NewBoardForm createBoardCallback={createBoard} />
         </div>
         <div>
           <CardList boardData={boardsData} selectedBoardName={selectedBoard} />
