@@ -27,12 +27,14 @@ const boardsList = [
         message: "You're strong and have good taste",
       },
     ],
+    isSelected: false,
   },
   {
     id: 2,
     title: "Affirmations",
     owner: "Claire",
     card: [],
+    isSelected: false,
   },
 ];
 
@@ -50,7 +52,7 @@ const boardsList = [
 function App() {
   //selectedBoard will be passed down to DisplayBoard --> BoardList --> Board
   //selectedBoard will be passed down to DisplayCards --> CardList --> Card
-  const [selectedBoard, updateSelectedBoard] = useState("");
+  const [selectedBoard, updateSelectedBoard] = useState(0);
   //boardsData will be passed down to DisplayCards --> CardList --> Card
   const [boardsData, updatedBoardsData] = useState(boardsList);
 
@@ -63,10 +65,21 @@ function App() {
       title: newBoard.title,
       owner: newBoard.owner,
       card: [],
+      isSelected: false,
     };
     newBoardList.push(newlyCreatedBoard);
     updatedBoardsData(newBoardList);
   };
+
+  //toggleSelectBoard runs on load --> need to fix so it only runs when clicked
+
+  const toggleSelectBoard = (id) => {
+    const board = boardsData.find((board) => board.id === id);
+    board.isSelected = !board.isSelected;
+    updateSelectedBoard(id);
+    console.log("clicked!");
+  };
+
   return (
     <div className="App">
       <header>
@@ -74,7 +87,11 @@ function App() {
       </header>
       <main>
         <div>
-          <BoardList selectedBoardName={selectedBoard} boardData={boardsData} />
+          <BoardList
+            selectedBoardId={selectedBoard}
+            boardData={boardsData}
+            selectedBoardCallback={toggleSelectBoard}
+          />
         </div>
         <div>
           <NewBoardForm createBoardCallback={createBoard} />
