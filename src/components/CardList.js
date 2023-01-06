@@ -5,20 +5,16 @@ import PropTypes from "prop-types";
 const CardList = (props) => {
   const getCardListJSX = (props) => {
     return props.boardData.map((cards) => {
-      return (
-        <Card
-          key={cards.card.id}
-          id={cards.card.id}
-          message={cards.card.message}
-        />
-      );
+      return cards.card.map((card) => {
+        return <Card key={card.id} id={card.id} message={card.message} />;
+      });
     });
   };
 
   return (
     <section>
       <h2>Cards</h2>
-      <div>{getCardListJSX(props)}</div>
+      <ul>{getCardListJSX(props)}</ul>
     </section>
   );
 };
