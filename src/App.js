@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewBoardForm from "./components/NewBoardForm.js";
 import CardList from "./components/CardList";
 import NewCardForm from "./components/CreateNewCard.js";
@@ -57,6 +57,7 @@ function App() {
   const [boardsData, updatedBoardsData] = useState(boardsList);
 
   const createBoard = (newBoard) => {
+    console.log("createBoard runs!");
     const newBoardList = [...boardsData];
 
     const nextId = Math.max(...newBoardList.map((board) => board.id)) + 1;
@@ -77,7 +78,7 @@ function App() {
     const board = boardsData.find((board) => board.id === id);
     board.isSelected = !board.isSelected;
     updateSelectedBoard(id);
-    console.log("clicked!");
+    console.log(selectedBoard);
   };
 
   return (

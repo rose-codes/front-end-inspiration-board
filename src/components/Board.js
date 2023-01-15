@@ -10,7 +10,9 @@ const Board = (props) => {
     <section>
       <div
         className={selectedClass}
-        onClick={props.selectBoardNameCallback(props.id)}
+        onClick={() => {
+          props.selectBoardNameCallback(props.id);
+        }}
       >
         {props.title}
       </div>
