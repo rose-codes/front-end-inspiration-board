@@ -26,6 +26,9 @@ const BoardList = (props) => {
       <h2>Boards</h2>
       <ul>{getBoardListJSX(props)}</ul>
       <h3>Selected Board</h3>
+      <div>
+        {props.selectedBoard.isSelected ? `${props.selectedBoard.title}` : ""}
+      </div>
     </div>
   );
 };

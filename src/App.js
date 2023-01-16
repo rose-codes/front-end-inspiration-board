@@ -78,6 +78,9 @@ function App() {
   const toggleSelectBoard = (updatedBoard) => {
     const boards = boardsData.map((board) => {
       if (board.id === updatedBoard.id) {
+        if (selectedBoard.isSelected === true) {
+          selectedBoard.isSelected = false;
+        }
         updateSelectedBoard(updatedBoard);
         return updatedBoard;
       } else {
@@ -95,7 +98,7 @@ function App() {
       <main>
         <div>
           <BoardList
-            selectedBoardId={selectedBoard}
+            selectedBoard={selectedBoard}
             boardData={boardsData}
             selectedBoardCallback={toggleSelectBoard}
           />
