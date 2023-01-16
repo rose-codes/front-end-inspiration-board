@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const CardList = (props) => {
   const getCardListJSX = (props) => {
-    return props.boardData.map((cards) => {
+    return props.selectedBoard.card.map((cards) => {
       return cards.card.map((card) => {
         return <Card key={card.id} id={card.id} message={card.message} />;
       });
@@ -21,7 +21,7 @@ const CardList = (props) => {
 
 CardList.propTypes = {
   selectedBoardName: PropTypes.string,
-  boardData: PropTypes.arrayOf(
+  board: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,

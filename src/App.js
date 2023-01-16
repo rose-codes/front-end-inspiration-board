@@ -3,6 +3,7 @@ import NewBoardForm from "./components/NewBoardForm.js";
 import CardList from "./components/CardList";
 import NewCardForm from "./components/CreateNewCard.js";
 import BoardList from "./components/BoardList.js";
+import Card from "./components/Card.js";
 
 import "./App.css";
 
@@ -88,7 +89,16 @@ function App() {
       }
     });
     updatedBoardsData(boards);
+    return (
+      <div>
+        <CardList selectedBoard={selectedBoard} />
+      </div>
+    );
   };
+
+  // const displayBoardCards = (boardName) => {
+  //   return <CardList listOfCards={boardName.card} />;
+  // };
 
   return (
     <div className="App">
@@ -106,12 +116,17 @@ function App() {
         <div>
           <NewBoardForm createBoardCallback={createBoard} />
         </div>
-        <div>
+        {/* {selectedBoard.isSelected ? (
+          <CardList listOfCards={selectedBoard.card}></CardList>
+        ) : (
+          ""
+        )} */}
+        {/* <div>
           <CardList boardData={boardsData} selectedBoardName={selectedBoard} />
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <NewCardForm />
-        </div>
+        </div> */}
       </main>
     </div>
   );
