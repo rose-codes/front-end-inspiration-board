@@ -4,12 +4,11 @@ import PropTypes from "prop-types";
 
 const CardList = (props) => {
   const getCardListJSX = (props) => {
-    return props.selectedBoard.card.map((cards) => {
-      return cards.card.map((card) => {
-        return <Card key={card.id} id={card.id} message={card.message} />;
-      });
+    return props.selectedBoard.card.map((card) => {
+      return <Card key={card.id} id={card.id} message={card.message} />;
     });
   };
+  console.log(props.selectedBoard.card);
 
   return (
     <section>

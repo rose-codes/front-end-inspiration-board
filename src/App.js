@@ -58,6 +58,7 @@ function App() {
     isSelected: false,
     card: [],
   });
+  const [isBoardSelected, updateIsBoardSelected] = useState(false);
 
   const [boardsData, updatedBoardsData] = useState(boardsList);
 
@@ -88,17 +89,9 @@ function App() {
         return board;
       }
     });
+    updateIsBoardSelected(updatedBoard.isSelected);
     updatedBoardsData(boards);
-    return (
-      <div>
-        <CardList selectedBoard={selectedBoard} />
-      </div>
-    );
   };
-
-  // const displayBoardCards = (boardName) => {
-  //   return <CardList listOfCards={boardName.card} />;
-  // };
 
   return (
     <div className="App">
@@ -116,17 +109,11 @@ function App() {
         <div>
           <NewBoardForm createBoardCallback={createBoard} />
         </div>
-        {/* {selectedBoard.isSelected ? (
-          <CardList listOfCards={selectedBoard.card}></CardList>
-        ) : (
-          ""
-        )} */}
+        {isBoardSelected && <CardList selectedBoard={selectedBoard}></CardList>}
         {/* <div>
           <CardList boardData={boardsData} selectedBoardName={selectedBoard} />
         </div> */}
-        {/* <div>
-          <NewCardForm />
-        </div> */}
+        <div>{isBoardSelected && <NewCardForm />}</div>
       </main>
     </div>
   );
