@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import "./BoardList.css";
 
 const BoardList = (props) => {
-  //selectedBoardName will add a boolean to confirm if clicked --> if yes, add a style
   const getBoardListJSX = (props) => {
     return props.boardData.map((board) => {
       return (

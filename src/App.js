@@ -50,14 +50,17 @@ const boardsList = [
 // ];
 
 function App() {
-  //selectedBoard will be passed down to DisplayBoard --> BoardList --> Board
-  //selectedBoard will be passed down to DisplayCards --> CardList --> Card
-  const [selectedBoard, updateSelectedBoard] = useState(0);
-  //boardsData will be passed down to DisplayCards --> CardList --> Card
+  const [selectedBoard, updateSelectedBoard] = useState({
+    title: "",
+    owner: "",
+    board_id: null,
+    isSelected: false,
+    card: [],
+  });
+
   const [boardsData, updatedBoardsData] = useState(boardsList);
 
   const createBoard = (newBoard) => {
-    console.log("createBoard runs!");
     const newBoardList = [...boardsData];
 
     const nextId = Math.max(...newBoardList.map((board) => board.id)) + 1;
@@ -72,13 +75,16 @@ function App() {
     updatedBoardsData(newBoardList);
   };
 
-  //toggleSelectBoard runs on load --> need to fix so it only runs when clicked
-
-  const toggleSelectBoard = (id) => {
-    const board = boardsData.find((board) => board.id === id);
-    board.isSelected = !board.isSelected;
-    updateSelectedBoard(id);
-    console.log(selectedBoard);
+  const toggleSelectBoard = (updatedBoard) => {
+    const boards = boardsData.map((board) => {
+      if (board.id === updatedBoard.id) {
+        updateSelectedBoard(updatedBoard);
+        return updatedBoard;
+      } else {
+        return board;
+      }
+    });
+    updatedBoardsData(boards);
   };
 
   return (
