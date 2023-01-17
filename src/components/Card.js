@@ -6,16 +6,22 @@ const Card = (props) => {
     <section>
       <li>{props.message}</li>
       <section class="likes">
-        <span>❤️ {props.card.likes_count} Likes </span>
+        <span>❤️ {props.likes_count} Likes </span>
         <span
           onClick={() => {
-            console.log("likes clicked!", props.card);
+            // console.log("likes clicked!", props.card);
             props.increaseLikesCount(props.card);
           }}
         >
           +1{" "}
         </span>
-        <span>Delete Card</span>
+        <span
+          onClick={() => {
+            props.deleteCard(props.card);
+          }}
+        >
+          Delete Card
+        </span>
       </section>
     </section>
   );

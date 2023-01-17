@@ -11,13 +11,20 @@ const CardList = (props) => {
         ? existingCard
         : { ...card, likes_count: card.likes_count + 1 };
     });
-    console.log(newCardsData);
     setCardsData(newCardsData);
   };
-  console.log("after", cardsData);
+
+  const deleteCard = (card) => {
+    const newCardsData = cardsData.map((existingCard) => {
+      return existingCard.card_id !== card.card_id && existingCard;
+    });
+    setCardsData(newCardsData);
+    console.log(newCardsData);
+  };
 
   const getCardListJSX = (props) => {
-    return props.selectedBoard.card.map((card) => {
+    return cardsData.map((card) => {
+      console.log(card);
       return (
         <Card
           key={card.card_id}
@@ -26,6 +33,7 @@ const CardList = (props) => {
           message={card.message}
           likes_count={card.likes_count}
           increaseLikesCount={increaseLikesCount}
+          deleteCard={deleteCard}
         />
       );
     });
