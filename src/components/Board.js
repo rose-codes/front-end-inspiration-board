@@ -5,7 +5,7 @@ import "./Board.css";
 const Board = (props) => {
   const selectBoardClick = () => {
     const selectedBoard = {
-      id: props.id,
+      board_id: props.id,
       key: props.id,
       title: props.title,
       owner: props.owner,
@@ -20,7 +20,6 @@ const Board = (props) => {
       <div
         className={selectedClass}
         onClick={() => {
-          console.log("inside Board.js:", props.id);
           selectBoardClick();
         }}
       >
@@ -32,7 +31,7 @@ const Board = (props) => {
 
 Board.propTypes = {
   selectedBoardName: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  board_id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   owner: PropTypes.string.isRequired,
   card: PropTypes.array.isRequired,

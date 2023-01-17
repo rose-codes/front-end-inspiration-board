@@ -8,8 +8,8 @@ const BoardList = (props) => {
     return props.boardData.map((board) => {
       return (
         <Board
-          key={board.id}
-          id={board.id}
+          key={board.board_id}
+          id={board.board_id}
           title={board.title}
           owner={board.owner}
           card={board.card}

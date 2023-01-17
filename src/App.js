@@ -15,23 +15,25 @@ import "./App.css";
 //const boardCards = [0, 1, 2, 3] --> each board has a key/id that corresponds to the index of this array
 const boardsList = [
   {
-    id: 1,
+    board_id: 1,
     title: "Reminders",
     owner: "Simon",
     card: [
       {
-        id: 1,
+        card_id: 1,
         message: "Hello",
+        likes_count: 0,
       },
       {
-        id: 2,
+        card_id: 2,
         message: "You're strong and have good taste",
+        likes_count: 0,
       },
     ],
     isSelected: false,
   },
   {
-    id: 2,
+    board_id: 2,
     title: "Affirmations",
     owner: "Claire",
     card: [],
@@ -65,9 +67,9 @@ function App() {
   const createBoard = (newBoard) => {
     const newBoardList = [...boardsData];
 
-    const nextId = Math.max(...newBoardList.map((board) => board.id)) + 1;
+    const nextId = Math.max(...newBoardList.map((board) => board.board_id)) + 1;
     const newlyCreatedBoard = {
-      id: nextId,
+      board_id: nextId,
       title: newBoard.title,
       owner: newBoard.owner,
       card: [],
@@ -81,8 +83,9 @@ function App() {
     const boardList = [...boardsData];
     const newCardId = selectedBoard.card.length + 1;
     const newlyCreatedCard = {
-      id: newCardId,
+      card_id: newCardId,
       message: newCard.message,
+      likes_count: 0,
     };
     selectedBoard.card.push(newlyCreatedCard);
     updatedBoardsData(boardList);
@@ -91,7 +94,7 @@ function App() {
 
   const toggleSelectBoard = (updatedBoard) => {
     const boards = boardsData.map((board) => {
-      if (board.id === updatedBoard.id) {
+      if (board.board_id === updatedBoard.board_id) {
         if (selectedBoard.isSelected === true) {
           selectedBoard.isSelected = false;
         }
