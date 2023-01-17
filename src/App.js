@@ -77,6 +77,18 @@ function App() {
     updatedBoardsData(newBoardList);
   };
 
+  const createCard = (newCard) => {
+    const boardList = [...boardsData];
+    const newCardId = selectedBoard.card.length + 1;
+    const newlyCreatedCard = {
+      id: newCardId,
+      message: newCard.message,
+    };
+    selectedBoard.card.push(newlyCreatedCard);
+    updatedBoardsData(boardList);
+    console.log(selectedBoard);
+  };
+
   const toggleSelectBoard = (updatedBoard) => {
     const boards = boardsData.map((board) => {
       if (board.id === updatedBoard.id) {
@@ -113,7 +125,14 @@ function App() {
         {/* <div>
           <CardList boardData={boardsData} selectedBoardName={selectedBoard} />
         </div> */}
-        <div>{isBoardSelected && <NewCardForm />}</div>
+        <div>
+          {isBoardSelected && (
+            <NewCardForm
+              selectedBoard={selectedBoard}
+              createCardCallback={createCard}
+            />
+          )}
+        </div>
       </main>
     </div>
   );

@@ -8,7 +8,6 @@ const CardList = (props) => {
       return <Card key={card.id} id={card.id} message={card.message} />;
     });
   };
-  console.log(props.selectedBoard.card);
 
   return (
     <section>

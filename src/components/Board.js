@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import "./Board.css";
 
 const Board = (props) => {
-  //later on, we need to have a safeguard to only allow one selected board at a time
   const selectBoardClick = () => {
     const selectedBoard = {
       id: props.id,
