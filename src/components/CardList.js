@@ -4,7 +4,10 @@ import PropTypes from "prop-types";
 
 const CardList = (props) => {
   const [cardsData, setCardsData] = useState(props.cardListData);
-  console.log("cardlist props:", cardsData);
+
+  useEffect(() => {
+    setCardsData(props.cardListData);
+  }, [props.cardListData]);
 
   const increaseLikesCount = (card) => {
     const newCardsData = cardsData.map((existingCard) => {
@@ -56,7 +59,7 @@ CardList.propTypes = {
       card_id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       owner: PropTypes.string.isRequired,
-      card: PropTypes.array.isRequired,
+      board_id: PropTypes.number.isRequired,
     })
   ),
 };

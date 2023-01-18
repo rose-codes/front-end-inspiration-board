@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import NewBoardForm from "./components/NewBoardForm.js";
 import CardList from "./components/CardList";
 import NewCardForm from "./components/CreateNewCard.js";
 import BoardList from "./components/BoardList.js";
-import Card from "./components/Card.js";
 
 import "./App.css";
 
@@ -12,7 +11,6 @@ import "./App.css";
 // axios.get(`${process.env.REACT_APP_BACKEND_URL}/boards`, {
 // ...
 
-//const boardCards = [0, 1, 2, 3] --> each board has a key/id that corresponds to the index of this array
 const boardsList = [
   {
     board_id: 1,
@@ -54,33 +52,19 @@ const cardListData = [
   },
 ];
 
-// const cardList = [
-//   {
-//     id: 1,
-//     message: "Hello"
-//   },
-//   {
-//     id: 2,
-//     message: "You're strong and have good taste"
-//   }
-// ];
-
 function App() {
-  const [selectedBoard, updateSelectedBoard] = useState({
+  const [selectedBoard, setSelectedBoard] = useState({
     title: "",
     owner: "",
     board_id: null,
-    isSelected: false,
-    card: [],
   });
-
   const [selectedBoardId, setSelectedBoardId] = useState(0);
-
-  const [isBoardSelected, updateIsBoardSelected] = useState(false);
+  const [isBoardSelected, setIsBoardSelected] = useState(false);
   const [isBoardFormDisplayed, setIsBoardFormDisplayed] = useState(true);
-  const [boardsData, updatedBoardsData] = useState(boardsList);
+  const [boardsData, setBoardsData] = useState(boardsList);
   const [cardsData, setCardsData] = useState(cardListData);
 
+  //CREATE CALLBACK FUNCTIONS
   const createBoard = (newBoard) => {
     const newBoardList = [...boardsData];
 
@@ -89,16 +73,14 @@ function App() {
       board_id: nextId,
       title: newBoard.title,
       owner: newBoard.owner,
-      card: [],
-      isSelected: false,
     };
     newBoardList.push(newlyCreatedBoard);
-    updatedBoardsData(newBoardList);
+    setBoardsData(newBoardList);
   };
 
   const createCard = (newCard) => {
     const newCardList = [...cardsData];
-    const newCardId = newCardList.length;
+    const newCardId = newCardList.length + 1;
     const newlyCreatedCard = {
       card_id: newCardId,
       message: newCard.message,
@@ -109,37 +91,21 @@ function App() {
     setCardsData(newCardList);
   };
 
-  // const toggleSelectBoard = (updatedBoard) => {
-  //   const boards = boardsData.map((board) => {
-  //     if (board.board_id === updatedBoard.board_id) {
-  //       if (selectedBoard.isSelected === true) {
-  //         selectedBoard.isSelected = false;
-  //       }
-  //       updateSelectedBoard(updatedBoard);
-  //       return updatedBoard;
-  //     } else {
-  //       return board;
-  //     }
-  //   });
-  //   updateIsBoardSelected(updatedBoard.isSelected);
-  //   updatedBoardsData(boards);
-  // };
-
-  const toggleSelectBoard = (updatedBoard) => {
+  //SELECT BOARD CALLBACK FUNCTION
+  const toggleSelectBoard = (clickedId) => {
     const boards = boardsData.map((board) => {
-      if (board.board_id === updatedBoard.board_id) {
+      if (board.board_id === clickedId) {
         const newBoardId = isBoardSelected ? 0 : board.board_id;
         setSelectedBoardId(newBoardId);
-        updateSelectedBoard(updatedBoard);
-        return updatedBoard;
-      } else {
-        return board;
+        setSelectedBoard(board);
       }
+      return board;
     });
-    updateIsBoardSelected(!isBoardSelected);
-    updatedBoardsData(boards);
+    setIsBoardSelected(!isBoardSelected);
+    setBoardsData(boards);
   };
 
+  //HIDE OR SHOW NEW BOARD FORM BUTTON
   const boardFormButtonHandler = (event) => {
     event.preventDefault();
     setIsBoardFormDisplayed(!isBoardFormDisplayed);
@@ -178,12 +144,7 @@ function App() {
           ></CardList>
         )}
         <div>
-          {isBoardSelected && (
-            <NewCardForm
-              selectedBoard={selectedBoard}
-              createCardCallback={createCard}
-            />
-          )}
+          {isBoardSelected && <NewCardForm createCardCallback={createCard} />}
         </div>
       </main>
     </div>

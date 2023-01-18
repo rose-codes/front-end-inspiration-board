@@ -12,7 +12,6 @@ const BoardList = (props) => {
           id={board.board_id}
           title={board.title}
           owner={board.owner}
-          card={board.card}
           idSelectedBoard={props.selectedBoardId}
           selectBoardNameCallback={props.selectedBoardCallback}
           isBoardSelected={props.isBoardSelected}
@@ -26,23 +25,22 @@ const BoardList = (props) => {
       <h2>Boards</h2>
       <ul>{getBoardListJSX(props)}</ul>
       <h3>Selected Board</h3>
-      <div>
-        {props.selectedBoard.isSelected ? `${props.selectedBoard.title}` : ""}
-      </div>
+      <div>{props.isBoardSelected ? `${props.selectedBoard.title}` : ""}</div>
     </div>
   );
 };
 
 BoardList.propTypes = {
-  selectedBoardName: PropTypes.string,
   boardData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       owner: PropTypes.string.isRequired,
-      card: PropTypes.array.isRequired,
     })
   ),
+  selectedBoardId: PropTypes.number,
+  isBoardSelected: PropTypes.bool,
+  selectedBoardCallback: PropTypes.func,
 };
 
 export default BoardList;

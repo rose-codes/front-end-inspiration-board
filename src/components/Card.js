@@ -9,7 +9,6 @@ const Card = (props) => {
         <span>❤️ {props.likes_count} Likes </span>
         <span
           onClick={() => {
-            // console.log("likes clicked!", props.card);
             props.increaseLikesCount(props.card);
           }}
         >
