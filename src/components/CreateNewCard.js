@@ -59,7 +59,6 @@ const NewCardForm = (props) => {
           ></input>
           <p>{formErrors.message}</p>
         </div>
-        {/* add code here to show preview */}
         <pre>{`Preview - ${formFields.message}`}</pre>
         <div>
           <input type="submit" value="Submit"></input>

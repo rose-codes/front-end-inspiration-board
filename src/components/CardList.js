@@ -23,7 +23,6 @@ const CardList = (props) => {
       return existingCard.card_id !== card.card_id && existingCard;
     });
     setCardsData(newCardsData);
-    console.log(newCardsData);
   };
 
   const getCardListJSX = () => {
