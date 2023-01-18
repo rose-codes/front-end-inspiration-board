@@ -93,9 +93,9 @@ function App() {
   const createBoard = (newBoard) => {
     const newBoardList = [...boardsData];
 
-    const nextId = Math.max(...newBoardList.map((board) => board.id)) + 1;
+    //const nextId = Math.max(...newBoardList.map((board) => board.id)) + 1;
     const newlyCreatedBoard = {
-      id: nextId,
+      id: newBoardList.length + 1,
       title: newBoard.title,
       owner: newBoard.owner,
     };
@@ -143,10 +143,11 @@ function App() {
             setIsBoardSelected(true);
           }
         }
+        console.log(response.data);
         setSelectedBoard(response.data);
-        return clickedId;
+        return selectedBoardId;
       })
-      .then((response) => getCardsList(response))
+      // .then((response) => getCardsList(response))
       .catch((error) => {
         console.log("Error! Board not found");
       });
@@ -167,7 +168,7 @@ function App() {
         setCardsData(cardsList);
       })
       .catch((error) => {
-        // console.log(selectedBoardId);
+        console.log(selectedBoardId);
         console.log(error.message);
       });
   };

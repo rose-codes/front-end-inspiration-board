@@ -3,11 +3,11 @@ import Card from "./Card";
 import PropTypes from "prop-types";
 
 const CardList = (props) => {
-  const [cardsData, setCardsData] = useState(props.cardListData);
+  const [cardsData, setCardsData] = useState([]);
 
   useEffect(() => {
     setCardsData(props.cardListData);
-  }, [props.cardListData]);
+  }, []);
 
   const increaseLikesCount = (card) => {
     const newCardsData = cardsData.map((existingCard) => {
