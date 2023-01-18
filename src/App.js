@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import NewBoardForm from "./components/NewBoardForm.js";
 import CardList from "./components/CardList";
 import NewCardForm from "./components/CreateNewCard.js";
@@ -11,14 +12,19 @@ import "./App.css";
 // axios.get(`${process.env.REACT_APP_BACKEND_URL}/boards`, {
 // ...
 
+// const kBaseUrl = 'https://task-list-api-c17.herokuapp.com';
+const kBaseUrl = "http://127.0.0.1:5000/";
+
+// Get All Boards
+
 const boardsList = [
   {
-    board_id: 1,
+    id: 1,
     title: "Reminders",
     owner: "Simon",
   },
   {
-    board_id: 2,
+    id: 2,
     title: "Affirmations",
     owner: "Claire",
   },
@@ -29,26 +35,26 @@ const cardListData = [
     card_id: 1,
     message: "Hello",
     likes_count: 0,
-    board_id: 1,
+    id: 1,
   },
 
   {
     card_id: 2,
     message: "You're strong and have good taste",
     likes_count: 0,
-    board_id: 1,
+    id: 1,
   },
   {
     card_id: 3,
     message: "You're strong",
     likes_count: 0,
-    board_id: 2,
+    id: 2,
   },
   {
     card_id: 4,
     message: "You're cool",
     likes_count: 0,
-    board_id: 2,
+    id: 2,
   },
 ];
 
@@ -56,7 +62,7 @@ function App() {
   const [selectedBoard, setSelectedBoard] = useState({
     title: "",
     owner: "",
-    board_id: null,
+    id: null,
   });
   const [selectedBoardId, setSelectedBoardId] = useState(0);
   const [isBoardSelected, setIsBoardSelected] = useState(false);
@@ -64,18 +70,44 @@ function App() {
   const [boardsData, setBoardsData] = useState(boardsList);
   const [cardsData, setCardsData] = useState(cardListData);
 
+  // GET ALL BOARDS
+  useEffect(() => {
+    axios
+      .get(`${kBaseUrl}/boards`)
+      .then((response) => {
+        const boardsList = response.data.map((board) => {
+          return {
+            id: board.id,
+            title: board.title,
+            owner: board.owner,
+          };
+        });
+        setBoardsData(boardsList);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, []);
+
   //CREATE CALLBACK FUNCTIONS
   const createBoard = (newBoard) => {
     const newBoardList = [...boardsData];
 
-    const nextId = Math.max(...newBoardList.map((board) => board.board_id)) + 1;
+    const nextId = Math.max(...newBoardList.map((board) => board.id)) + 1;
     const newlyCreatedBoard = {
-      board_id: nextId,
+      id: nextId,
       title: newBoard.title,
       owner: newBoard.owner,
     };
     newBoardList.push(newlyCreatedBoard);
-    setBoardsData(newBoardList);
+    axios
+      .post(`${kBaseUrl}/boards`, newlyCreatedBoard)
+      .then((response) => {
+        setBoardsData(newBoardList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const createCard = (newCard) => {
@@ -85,7 +117,7 @@ function App() {
       card_id: newCardId,
       message: newCard.message,
       likes_count: 0,
-      board_id: selectedBoardId,
+      id: selectedBoardId,
     };
     newCardList.push(newlyCreatedCard);
     setCardsData(newCardList);
@@ -93,16 +125,24 @@ function App() {
 
   //SELECT BOARD CALLBACK FUNCTION
   const toggleSelectBoard = (clickedId) => {
-    const boards = boardsData.map((board) => {
-      if (board.board_id === clickedId) {
-        const newBoardId = isBoardSelected ? 0 : board.board_id;
-        setSelectedBoardId(newBoardId);
-        setSelectedBoard(board);
-      }
-      return board;
-    });
-    setIsBoardSelected(!isBoardSelected);
-    setBoardsData(boards);
+    console.log(boardsData);
+    axios
+      .get(`${kBaseUrl}/boards/${clickedId}`)
+      .then((response) => {
+        if (response.data.id === clickedId) {
+          if (response.data.id === selectedBoardId) {
+            setIsBoardSelected(false);
+            setSelectedBoardId(0);
+          } else {
+            setSelectedBoardId(clickedId);
+            setIsBoardSelected(true);
+          }
+        }
+        setSelectedBoard(response.data);
+      })
+      .catch((error) => {
+        console.log("Error! Board not found");
+      });
   };
 
   //HIDE OR SHOW NEW BOARD FORM BUTTON
