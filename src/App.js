@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import NewBoardForm from "./components/NewBoardForm.js";
 import CardList from "./components/CardList";
 import NewCardForm from "./components/CreateNewCard.js";
 import BoardList from "./components/BoardList.js";
-import Card from "./components/Card.js";
 
 import "./App.css";
 
@@ -12,58 +11,60 @@ import "./App.css";
 // axios.get(`${process.env.REACT_APP_BACKEND_URL}/boards`, {
 // ...
 
-//const boardCards = [0, 1, 2, 3] --> each board has a key/id that corresponds to the index of this array
 const boardsList = [
   {
     board_id: 1,
     title: "Reminders",
     owner: "Simon",
-    card: [
-      {
-        card_id: 1,
-        message: "Hello",
-        likes_count: 0,
-      },
-      {
-        card_id: 2,
-        message: "You're strong and have good taste",
-        likes_count: 0,
-      },
-    ],
-    isSelected: false,
   },
   {
     board_id: 2,
     title: "Affirmations",
     owner: "Claire",
-    card: [],
-    isSelected: false,
   },
 ];
 
-// const cardList = [
-//   {
-//     id: 1,
-//     message: "Hello"
-//   },
-//   {
-//     id: 2,
-//     message: "You're strong and have good taste"
-//   }
-// ];
+const cardListData = [
+  {
+    card_id: 1,
+    message: "Hello",
+    likes_count: 0,
+    board_id: 1,
+  },
+
+  {
+    card_id: 2,
+    message: "You're strong and have good taste",
+    likes_count: 0,
+    board_id: 1,
+  },
+  {
+    card_id: 3,
+    message: "You're strong",
+    likes_count: 0,
+    board_id: 2,
+  },
+  {
+    card_id: 4,
+    message: "You're cool",
+    likes_count: 0,
+    board_id: 2,
+  },
+];
 
 function App() {
-  const [selectedBoard, updateSelectedBoard] = useState({
+  const [selectedBoard, setSelectedBoard] = useState({
     title: "",
     owner: "",
     board_id: null,
-    isSelected: false,
-    card: [],
   });
-  const [isBoardSelected, updateIsBoardSelected] = useState(false);
+  const [selectedBoardId, setSelectedBoardId] = useState(0);
+  const [isBoardSelected, setIsBoardSelected] = useState(false);
   const [isBoardFormDisplayed, setIsBoardFormDisplayed] = useState(true);
-  const [boardsData, updatedBoardsData] = useState(boardsList);
+  const [boardsData, setBoardsData] = useState(boardsList);
+  const [cardsData, setCardsData] = useState(cardListData);
 
+  //CREATE CALLBACK FUNCTIONS
   const createBoard = (newBoard) => {
     const newBoardList = [...boardsData];
 
@@ -72,41 +73,39 @@ function App() {
       board_id: nextId,
       title: newBoard.title,
       owner: newBoard.owner,
-      card: [],
-      isSelected: false,
     };
     newBoardList.push(newlyCreatedBoard);
-    updatedBoardsData(newBoardList);
+    setBoardsData(newBoardList);
   };
 
   const createCard = (newCard) => {
-    const boardList = [...boardsData];
-    const newCardId = selectedBoard.card.length + 1;
+    const newCardList = [...cardsData];
+    const newCardId = newCardList.length + 1;
     const newlyCreatedCard = {
       card_id: newCardId,
       message: newCard.message,
       likes_count: 0,
+      board_id: selectedBoardId,
     };
-    selectedBoard.card.push(newlyCreatedCard);
-    updatedBoardsData(boardList);
-    console.log(selectedBoard);
+    newCardList.push(newlyCreatedCard);
+    setCardsData(newCardList);
   };
 
-  const toggleSelectBoard = (updatedBoard) => {
+  //SELECT BOARD CALLBACK FUNCTION
+  const toggleSelectBoard = (clickedId) => {
     const boards = boardsData.map((board) => {
-      if (board.board_id === updatedBoard.board_id) {
-        if (selectedBoard.isSelected === true) {
-          selectedBoard.isSelected = false;
-        }
-        updateSelectedBoard(updatedBoard);
-        return updatedBoard;
-      } else {
-        return board;
+      if (board.board_id === clickedId) {
+        const newBoardId = isBoardSelected ? 0 : board.board_id;
+        setSelectedBoardId(newBoardId);
+        setSelectedBoard(board);
       }
+      return board;
     });
-    updateIsBoardSelected(updatedBoard.isSelected);
-    updatedBoardsData(boards);
+    setIsBoardSelected(!isBoardSelected);
+    setBoardsData(boards);
   };
+
+  //HIDE OR SHOW NEW BOARD FORM BUTTON
   const boardFormButtonHandler = (event) => {
     event.preventDefault();
     setIsBoardFormDisplayed(!isBoardFormDisplayed);
@@ -121,8 +120,10 @@ function App() {
         <div>
           <BoardList
             selectedBoard={selectedBoard}
+            selectedBoardId={selectedBoardId}
             boardData={boardsData}
             selectedBoardCallback={toggleSelectBoard}
+            isBoardSelected={isBoardSelected}
           />
         </div>
         <div class="new-board-form-display">
@@ -136,14 +137,14 @@ function App() {
               : "Show Create Board Form"}
           </button>
         </div>
-        {isBoardSelected && <CardList selectedBoard={selectedBoard}></CardList>}
+        {isBoardSelected && (
+          <CardList
+            boardId={selectedBoardId}
+            cardListData={cardsData}
+          ></CardList>
+        )}
         <div>
-          {isBoardSelected && (
-            <NewCardForm
-              selectedBoard={selectedBoard}
-              createCardCallback={createCard}
-            />
-          )}
+          {isBoardSelected && <NewCardForm createCardCallback={createCard} />}
         </div>
       </main>
     </div>

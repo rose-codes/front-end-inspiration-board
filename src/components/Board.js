@@ -3,24 +3,21 @@ import PropTypes from "prop-types";
 import "./Board.css";
 
 const Board = (props) => {
-  const selectBoardClick = () => {
-    const selectedBoard = {
-      board_id: props.id,
-      key: props.id,
-      title: props.title,
-      owner: props.owner,
-      card: props.card,
-      isSelected: !props.isSelected,
-    };
-    props.selectBoardNameCallback(selectedBoard);
+  const onBoardClick = () => {
+    props.selectBoardNameCallback(props.id);
   };
-  const selectedClass = props.isSelected ? "selected" : "";
+
+  const selectedClass =
+    props.isBoardSelected && props.idSelectedBoard === props.id
+      ? "selected"
+      : "";
+
   return (
     <section>
       <div
         className={selectedClass}
         onClick={() => {
-          selectBoardClick();
+          onBoardClick();
         }}
       >
         {props.title}

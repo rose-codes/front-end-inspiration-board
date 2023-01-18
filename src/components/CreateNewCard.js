@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const kDefaultFormState = {
   message: "",
@@ -7,6 +7,19 @@ const kDefaultFormState = {
 const NewCardForm = (props) => {
   const [formFields, setFormFields] = useState(kDefaultFormState);
   const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      props.createCardCallback({
+        message: formFields.message,
+      });
+      setFormFields({
+        message: "",
+      });
+    }
+    setIsSubmit(false);
+  }, [formErrors, isSubmit, formFields.message, props]);
 
   const onMessageChange = (event) => {
     setFormFields({
@@ -14,26 +27,20 @@ const NewCardForm = (props) => {
       message: event.target.value,
     });
   };
-  // const validate = (values) => {
-  //   const errors = {};
-  //   if (values.message.length > 40) {
-  //     errors.message = "Message limited to 40 characters";
-  //   } else if (values.message.length < 1) {
-  //     errors.message = "Message is required";
-  //   }
-  //   return errors;
-  // };
+  const validate = (values) => {
+    const errors = {};
+    if (values.message.length > 40) {
+      errors.message = "Message limited to 40 characters";
+    } else if (values.message.length < 1) {
+      errors.message = "Message is required";
+    }
+    return errors;
+  };
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    // setFormErrors(validate(formFields));
-
-    props.createCardCallback({
-      message: formFields.message,
-    });
-    setFormFields({
-      title: "",
-    });
+    setFormErrors(validate(formFields));
+    setIsSubmit(true);
   };
 
   return (
@@ -48,12 +55,11 @@ const NewCardForm = (props) => {
             name="message"
             value={formFields.message}
             onChange={onMessageChange}
-            // className={formErrors.message ? "error" : ""}
+            className={formErrors.message ? "error" : ""}
           ></input>
-          {/* <p>{formErrors}</p> */}
+          <p>{formErrors.message}</p>
         </div>
-        {/* add code here to show preview */}
-        <div>Preview: message here</div>
+        <pre>{`Preview - ${formFields.message}`}</pre>
         <div>
           <input type="submit" value="Submit"></input>
         </div>

@@ -11,6 +11,20 @@ const NewBoardForm = (props) => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      props.createBoardCallback({
+        title: formFields.title,
+        owner: formFields.owner,
+      });
+      setFormFields({
+        title: "",
+        owner: "",
+      });
+    }
+    setIsSubmit(false);
+  }, [formErrors, formFields.title, formFields.owner, isSubmit, props]);
+
   const validate = (values) => {
     const errors = {};
     if (!values.title) {
@@ -40,24 +54,8 @@ const NewBoardForm = (props) => {
   const onFormSubmit = (event) => {
     event.preventDefault();
     setFormErrors(validate(formFields));
-    if (formFields.title.length > 0 && formFields.owner.length > 0) {
-      setIsSubmit(true);
-      props.createBoardCallback({
-        title: formFields.title,
-        owner: formFields.owner,
-      });
-      setFormFields({
-        title: "",
-        owner: "",
-      });
-    }
+    setIsSubmit(true);
   };
-
-  useEffect(() => {
-    console.log(formErrors);
-    if (Object.keys(formErrors).length === 0 && isSubmit)
-      console.log(formFields);
-  }, [formErrors]);
 
   return (
     <section>
