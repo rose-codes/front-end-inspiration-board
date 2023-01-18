@@ -13,9 +13,9 @@ const BoardList = (props) => {
           title={board.title}
           owner={board.owner}
           card={board.card}
-          isSelected={board.isSelected}
           idSelectedBoard={props.selectedBoardId}
           selectBoardNameCallback={props.selectedBoardCallback}
+          isBoardSelected={props.isBoardSelected}
         />
       );
     });

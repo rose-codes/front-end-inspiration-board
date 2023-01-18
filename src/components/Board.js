@@ -10,11 +10,13 @@ const Board = (props) => {
       title: props.title,
       owner: props.owner,
       card: props.card,
-      isSelected: !props.isSelected,
     };
     props.selectBoardNameCallback(selectedBoard);
   };
-  const selectedClass = props.isSelected ? "selected" : "";
+  const selectedClass =
+    props.isBoardSelected && props.idSelectedBoard === props.id
+      ? "selected"
+      : "";
   return (
     <section>
       <div

@@ -18,26 +18,39 @@ const boardsList = [
     board_id: 1,
     title: "Reminders",
     owner: "Simon",
-    card: [
-      {
-        card_id: 1,
-        message: "Hello",
-        likes_count: 0,
-      },
-      {
-        card_id: 2,
-        message: "You're strong and have good taste",
-        likes_count: 0,
-      },
-    ],
-    isSelected: false,
   },
   {
     board_id: 2,
     title: "Affirmations",
     owner: "Claire",
-    card: [],
-    isSelected: false,
+  },
+];
+
+const cardListData = [
+  {
+    card_id: 1,
+    message: "Hello",
+    likes_count: 0,
+    board_id: 1,
+  },
+
+  {
+    card_id: 2,
+    message: "You're strong and have good taste",
+    likes_count: 0,
+    board_id: 1,
+  },
+  {
+    card_id: 3,
+    message: "You're strong",
+    likes_count: 0,
+    board_id: 2,
+  },
+  {
+    card_id: 4,
+    message: "You're cool",
+    likes_count: 0,
+    board_id: 2,
   },
 ];
 
@@ -60,9 +73,13 @@ function App() {
     isSelected: false,
     card: [],
   });
+
+  const [selectedBoardId, setSelectedBoardId] = useState(0);
+
   const [isBoardSelected, updateIsBoardSelected] = useState(false);
   const [isBoardFormDisplayed, setIsBoardFormDisplayed] = useState(true);
   const [boardsData, updatedBoardsData] = useState(boardsList);
+  const [cardsData, setCardsData] = useState(cardListData);
 
   const createBoard = (newBoard) => {
     const newBoardList = [...boardsData];
@@ -80,33 +97,49 @@ function App() {
   };
 
   const createCard = (newCard) => {
-    const boardList = [...boardsData];
-    const newCardId = selectedBoard.card.length + 1;
+    const newCardList = [...cardsData];
+    const newCardId = newCardList.length;
     const newlyCreatedCard = {
       card_id: newCardId,
       message: newCard.message,
       likes_count: 0,
+      board_id: selectedBoardId,
     };
-    selectedBoard.card.push(newlyCreatedCard);
-    updatedBoardsData(boardList);
-    console.log(selectedBoard);
+    newCardList.push(newlyCreatedCard);
+    setCardsData(newCardList);
   };
+
+  // const toggleSelectBoard = (updatedBoard) => {
+  //   const boards = boardsData.map((board) => {
+  //     if (board.board_id === updatedBoard.board_id) {
+  //       if (selectedBoard.isSelected === true) {
+  //         selectedBoard.isSelected = false;
+  //       }
+  //       updateSelectedBoard(updatedBoard);
+  //       return updatedBoard;
+  //     } else {
+  //       return board;
+  //     }
+  //   });
+  //   updateIsBoardSelected(updatedBoard.isSelected);
+  //   updatedBoardsData(boards);
+  // };
 
   const toggleSelectBoard = (updatedBoard) => {
     const boards = boardsData.map((board) => {
       if (board.board_id === updatedBoard.board_id) {
-        if (selectedBoard.isSelected === true) {
-          selectedBoard.isSelected = false;
-        }
+        const newBoardId = isBoardSelected ? 0 : board.board_id;
+        setSelectedBoardId(newBoardId);
         updateSelectedBoard(updatedBoard);
         return updatedBoard;
       } else {
         return board;
       }
     });
-    updateIsBoardSelected(updatedBoard.isSelected);
+    updateIsBoardSelected(!isBoardSelected);
     updatedBoardsData(boards);
   };
+
   const boardFormButtonHandler = (event) => {
     event.preventDefault();
     setIsBoardFormDisplayed(!isBoardFormDisplayed);
@@ -121,8 +154,10 @@ function App() {
         <div>
           <BoardList
             selectedBoard={selectedBoard}
+            selectedBoardId={selectedBoardId}
             boardData={boardsData}
             selectedBoardCallback={toggleSelectBoard}
+            isBoardSelected={isBoardSelected}
           />
         </div>
         <div class="new-board-form-display">
@@ -136,7 +171,12 @@ function App() {
               : "Show Create Board Form"}
           </button>
         </div>
-        {isBoardSelected && <CardList selectedBoard={selectedBoard}></CardList>}
+        {isBoardSelected && (
+          <CardList
+            boardId={selectedBoardId}
+            cardListData={cardsData}
+          ></CardList>
+        )}
         <div>
           {isBoardSelected && (
             <NewCardForm
