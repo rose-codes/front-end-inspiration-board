@@ -10,8 +10,6 @@ const NewBoardForm = (props) => {
   const [formFields, setFormFields] = useState(kDefaultFormState);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
-  // const isCompleted =
-  //   formFields.title.length > 0 && formFields.owner.length > 0;
 
   const validate = (values) => {
     const errors = {};
@@ -23,9 +21,6 @@ const NewBoardForm = (props) => {
     }
     return errors;
   };
-
-  // const errors = validate(formFields.title, formFields.owner);
-  // const buttonEnabled = !Object.keys(errors).some((x) => errors[x]);
 
   const onTitleChange = (event) => {
     setFormFields({
@@ -66,7 +61,6 @@ const NewBoardForm = (props) => {
 
   return (
     <section>
-      <h2>Create A New Board</h2>
       <form onSubmit={onFormSubmit}>
         <div>
           <label htmlFor="title">Title</label>

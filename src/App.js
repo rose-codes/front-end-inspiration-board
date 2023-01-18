@@ -61,7 +61,7 @@ function App() {
     card: [],
   });
   const [isBoardSelected, updateIsBoardSelected] = useState(false);
-
+  const [isBoardFormDisplayed, setIsBoardFormDisplayed] = useState(true);
   const [boardsData, updatedBoardsData] = useState(boardsList);
 
   const createBoard = (newBoard) => {
@@ -107,6 +107,10 @@ function App() {
     updateIsBoardSelected(updatedBoard.isSelected);
     updatedBoardsData(boards);
   };
+  const boardFormButtonHandler = (event) => {
+    event.preventDefault();
+    setIsBoardFormDisplayed(!isBoardFormDisplayed);
+  };
 
   return (
     <div className="App">
@@ -121,13 +125,18 @@ function App() {
             selectedBoardCallback={toggleSelectBoard}
           />
         </div>
-        <div>
-          <NewBoardForm createBoardCallback={createBoard} />
+        <div class="new-board-form-display">
+          <h2>Create a New Board</h2>
+          {isBoardFormDisplayed && (
+            <NewBoardForm createBoardCallback={createBoard} />
+          )}
+          <button type="button" onClick={boardFormButtonHandler}>
+            {isBoardFormDisplayed
+              ? "Hide Create Board Form"
+              : "Show Create Board Form"}
+          </button>
         </div>
         {isBoardSelected && <CardList selectedBoard={selectedBoard}></CardList>}
-        {/* <div>
-          <CardList boardData={boardsData} selectedBoardName={selectedBoard} />
-        </div> */}
         <div>
           {isBoardSelected && (
             <NewCardForm
