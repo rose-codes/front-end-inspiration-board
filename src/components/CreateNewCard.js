@@ -6,6 +6,7 @@ const kDefaultFormState = {
 
 const NewCardForm = (props) => {
   const [formFields, setFormFields] = useState(kDefaultFormState);
+  const [formErrors, setFormErrors] = useState({});
 
   const onMessageChange = (event) => {
     setFormFields({
@@ -13,13 +14,23 @@ const NewCardForm = (props) => {
       message: event.target.value,
     });
   };
+  // const validate = (values) => {
+  //   const errors = {};
+  //   if (values.message.length > 40) {
+  //     errors.message = "Message limited to 40 characters";
+  //   } else if (values.message.length < 1) {
+  //     errors.message = "Message is required";
+  //   }
+  //   return errors;
+  // };
 
   const onFormSubmit = (event) => {
     event.preventDefault();
+    // setFormErrors(validate(formFields));
+
     props.createCardCallback({
       message: formFields.message,
     });
-
     setFormFields({
       title: "",
     });
@@ -37,7 +48,9 @@ const NewCardForm = (props) => {
             name="message"
             value={formFields.message}
             onChange={onMessageChange}
+            // className={formErrors.message ? "error" : ""}
           ></input>
+          {/* <p>{formErrors}</p> */}
         </div>
         {/* add code here to show preview */}
         <div>Preview: message here</div>
