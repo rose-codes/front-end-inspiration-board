@@ -112,20 +112,19 @@ function App() {
 
   const createCard = (newCard) => {
     const newCardList = [...cardsData];
-    const newCardId = newCardList.length + 1;
     const newlyCreatedCard = {
       message: newCard.message,
       likes_count: 0,
     };
-    newCardList.push(newlyCreatedCard);
+
     axios
       .post(`${kBaseUrl}/boards/${selectedBoardId}/cards`, newlyCreatedCard)
       .then((response) => {
+        newCardList.push(response.data);
         setCardsData(newCardList);
       })
       .catch((error) => {
         console.log(error);
-        console.log(selectedBoardId);
       });
   };
 
@@ -141,35 +140,13 @@ function App() {
           } else {
             setSelectedBoardId(clickedId);
             setIsBoardSelected(true);
+            setCardsData(response.data.cards);
+            setSelectedBoard(response.data);
           }
         }
-        console.log(response.data);
-        setSelectedBoard(response.data);
-        return selectedBoardId;
       })
-      // .then((response) => getCardsList(response))
       .catch((error) => {
         console.log("Error! Board not found");
-      });
-  };
-
-  const getCardsList = (board_id) => {
-    axios
-      .get(`${kBaseUrl}/boards/${board_id}/cards`)
-      .then((response) => {
-        const cardsList = response.data.map((card) => {
-          return {
-            id: card.id,
-            board_id: board_id,
-            message: card.message,
-            likes_count: card.likes_count,
-          };
-        });
-        setCardsData(cardsList);
-      })
-      .catch((error) => {
-        console.log(selectedBoardId);
-        console.log(error.message);
       });
   };
 
@@ -177,6 +154,32 @@ function App() {
   const boardFormButtonHandler = (event) => {
     event.preventDefault();
     setIsBoardFormDisplayed(!isBoardFormDisplayed);
+  };
+
+  const increaseLikesCount = (card) => {
+    const newCardsData = cardsData.map((existingCard) => {
+      return existingCard.id !== card.id
+        ? existingCard
+        : { ...card, likes_count: card.likes_count + 1 };
+    });
+    axios
+      .put(`${kBaseUrl}/cards/${card.id}/like`, card)
+      .then(() => setCardsData(newCardsData))
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const deleteCard = (card) => {
+    const newCardsData = cardsData.map((existingCard) => {
+      return existingCard.id !== card.id && existingCard;
+    });
+    axios
+      .delete(`${kBaseUrl}/cards/${card.id}`)
+      .then(() => setCardsData(newCardsData))
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   return (
@@ -209,6 +212,8 @@ function App() {
           <CardList
             boardId={selectedBoardId}
             cardListData={cardsData}
+            increaseLikesCount={increaseLikesCount}
+            deleteCard={deleteCard}
           ></CardList>
         )}
         <div>
