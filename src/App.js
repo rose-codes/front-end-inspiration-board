@@ -114,18 +114,23 @@ function App() {
     const newCardList = [...cardsData];
     const newCardId = newCardList.length + 1;
     const newlyCreatedCard = {
-      card_id: newCardId,
       message: newCard.message,
       likes_count: 0,
-      id: selectedBoardId,
     };
     newCardList.push(newlyCreatedCard);
-    setCardsData(newCardList);
+    axios
+      .post(`${kBaseUrl}/boards/${selectedBoardId}/cards`, newlyCreatedCard)
+      .then((response) => {
+        setCardsData(newCardList);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(selectedBoardId);
+      });
   };
 
   //SELECT BOARD CALLBACK FUNCTION
   const toggleSelectBoard = (clickedId) => {
-    console.log(boardsData);
     axios
       .get(`${kBaseUrl}/boards/${clickedId}`)
       .then((response) => {
@@ -139,9 +144,31 @@ function App() {
           }
         }
         setSelectedBoard(response.data);
+        return clickedId;
       })
+      .then((response) => getCardsList(response))
       .catch((error) => {
         console.log("Error! Board not found");
+      });
+  };
+
+  const getCardsList = (board_id) => {
+    axios
+      .get(`${kBaseUrl}/boards/${board_id}/cards`)
+      .then((response) => {
+        const cardsList = response.data.map((card) => {
+          return {
+            id: card.id,
+            board_id: board_id,
+            message: card.message,
+            likes_count: card.likes_count,
+          };
+        });
+        setCardsData(cardsList);
+      })
+      .catch((error) => {
+        // console.log(selectedBoardId);
+        console.log(error.message);
       });
   };
 
