@@ -7,56 +7,8 @@ import BoardList from "./components/BoardList.js";
 
 import "./App.css";
 
-// Use this environment variable to send your API requests. You can read it by using the expression process.env.REACT_APP_BACKEND_URL. For example, we may use it like this in any component:
-
-// axios.get(`${process.env.REACT_APP_BACKEND_URL}/boards`, {
-// ...
-
 // const kBaseUrl = 'https://task-list-api-c17.herokuapp.com';
 const kBaseUrl = "http://127.0.0.1:5000/";
-
-// Get All Boards
-
-const boardsList = [
-  {
-    id: 1,
-    title: "Reminders",
-    owner: "Simon",
-  },
-  {
-    id: 2,
-    title: "Affirmations",
-    owner: "Claire",
-  },
-];
-
-const cardListData = [
-  {
-    card_id: 1,
-    message: "Hello",
-    likes_count: 0,
-    id: 1,
-  },
-
-  {
-    card_id: 2,
-    message: "You're strong and have good taste",
-    likes_count: 0,
-    id: 1,
-  },
-  {
-    card_id: 3,
-    message: "You're strong",
-    likes_count: 0,
-    id: 2,
-  },
-  {
-    card_id: 4,
-    message: "You're cool",
-    likes_count: 0,
-    id: 2,
-  },
-];
 
 function App() {
   const [selectedBoard, setSelectedBoard] = useState({
@@ -67,8 +19,8 @@ function App() {
   const [selectedBoardId, setSelectedBoardId] = useState(0);
   const [isBoardSelected, setIsBoardSelected] = useState(false);
   const [isBoardFormDisplayed, setIsBoardFormDisplayed] = useState(true);
-  const [boardsData, setBoardsData] = useState(boardsList);
-  const [cardsData, setCardsData] = useState(cardListData);
+  const [boardsData, setBoardsData] = useState([]);
+  const [cardsData, setCardsData] = useState([]);
 
   // GET ALL BOARDS
   useEffect(() => {
@@ -89,20 +41,19 @@ function App() {
       });
   }, []);
 
-  //CREATE CALLBACK FUNCTIONS
+  // CREATE NEW BOARD
   const createBoard = (newBoard) => {
     const newBoardList = [...boardsData];
 
-    //const nextId = Math.max(...newBoardList.map((board) => board.id)) + 1;
     const newlyCreatedBoard = {
-      id: newBoardList.length + 1,
       title: newBoard.title,
       owner: newBoard.owner,
     };
-    newBoardList.push(newlyCreatedBoard);
+
     axios
       .post(`${kBaseUrl}/boards`, newlyCreatedBoard)
       .then((response) => {
+        newBoardList.push(response.data);
         setBoardsData(newBoardList);
       })
       .catch((error) => {
@@ -110,6 +61,7 @@ function App() {
       });
   };
 
+  // CREATE NEW CARD
   const createCard = (newCard) => {
     const newCardList = [...cardsData];
     const newlyCreatedCard = {
@@ -128,21 +80,19 @@ function App() {
       });
   };
 
-  //SELECT BOARD CALLBACK FUNCTION
+  // SELECT BOARD CALLBACK FUNCTION
   const toggleSelectBoard = (clickedId) => {
     axios
       .get(`${kBaseUrl}/boards/${clickedId}`)
       .then((response) => {
-        if (response.data.id === clickedId) {
-          if (response.data.id === selectedBoardId) {
-            setIsBoardSelected(false);
-            setSelectedBoardId(0);
-          } else {
-            setSelectedBoardId(clickedId);
-            setIsBoardSelected(true);
-            setCardsData(response.data.cards);
-            setSelectedBoard(response.data);
-          }
+        if (response.data.id === selectedBoardId) {
+          setIsBoardSelected(false);
+          setSelectedBoardId(0);
+        } else {
+          setSelectedBoardId(response.data.id);
+          setIsBoardSelected(true);
+          setCardsData(response.data.cards);
+          setSelectedBoard(response.data);
         }
       })
       .catch((error) => {
@@ -150,26 +100,30 @@ function App() {
       });
   };
 
-  //HIDE OR SHOW NEW BOARD FORM BUTTON
+  // HIDE OR SHOW NEW BOARD FORM BUTTON
   const boardFormButtonHandler = (event) => {
     event.preventDefault();
     setIsBoardFormDisplayed(!isBoardFormDisplayed);
   };
 
+  // INCREASE LIKES
   const increaseLikesCount = (card) => {
-    const newCardsData = cardsData.map((existingCard) => {
-      return existingCard.id !== card.id
-        ? existingCard
-        : { ...card, likes_count: card.likes_count + 1 };
-    });
     axios
       .put(`${kBaseUrl}/cards/${card.id}/like`, card)
-      .then(() => setCardsData(newCardsData))
+      .then((response) => {
+        const newCardsData = cardsData.map((existingCard) => {
+          return existingCard.id !== card.id
+            ? existingCard
+            : { ...card, likes_count: response.data.likes_count };
+        });
+        setCardsData(newCardsData);
+      })
       .catch((error) => {
         console.log(error.message);
       });
   };
 
+  // DELETE CARD
   const deleteCard = (card) => {
     const newCardsData = cardsData.map((existingCard) => {
       return existingCard.id !== card.id && existingCard;
