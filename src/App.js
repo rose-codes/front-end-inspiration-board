@@ -139,40 +139,46 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>Inspiration Board</h1>
+        <h1 id="header-text">Inspiration Board</h1>
       </header>
-      <main>
-        <div>
-          <BoardList
-            selectedBoard={selectedBoard}
-            selectedBoardId={selectedBoardId}
-            boardData={boardsData}
-            selectedBoardCallback={toggleSelectBoard}
-            isBoardSelected={isBoardSelected}
-          />
-        </div>
-        <div class="new-board-form-display">
-          <h2>Create a New Board</h2>
-          {isBoardFormDisplayed && (
-            <NewBoardForm createBoardCallback={createBoard} />
-          )}
-          <button type="button" onClick={boardFormButtonHandler}>
-            {isBoardFormDisplayed
-              ? "Hide Create Board Form"
-              : "Show Create Board Form"}
-          </button>
-        </div>
-        {isBoardSelected && (
-          <CardList
-            boardId={selectedBoardId}
-            cardListData={cardsData}
-            increaseLikesCount={increaseLikesCount}
-            deleteCard={deleteCard}
-          ></CardList>
-        )}
-        <div>
-          {isBoardSelected && <NewCardForm createCardCallback={createCard} />}
-        </div>
+      <main className="main_container">
+        <section className="board_container">
+          <div>
+            <BoardList
+              selectedBoard={selectedBoard}
+              selectedBoardId={selectedBoardId}
+              boardData={boardsData}
+              selectedBoardCallback={toggleSelectBoard}
+              isBoardSelected={isBoardSelected}
+            />
+          </div>
+          <div class="new-board-form-display">
+            <h2>Create a New Board</h2>
+            {isBoardFormDisplayed && (
+              <NewBoardForm createBoardCallback={createBoard} />
+            )}
+            <button type="button" onClick={boardFormButtonHandler}>
+              {isBoardFormDisplayed
+                ? "Hide Create Board Form"
+                : "Show Create Board Form"}
+            </button>
+          </div>
+        </section>
+        <section className="card_container">
+          <div>
+            {isBoardSelected && (
+              <CardList
+                boardId={selectedBoardId}
+                cardListData={cardsData}
+                increaseLikesCount={increaseLikesCount}
+                deleteCard={deleteCard}
+              />
+            )}
+          </div>
+          <div>
+            {isBoardSelected && <NewCardForm createCardCallback={createCard} />}
+          </div>
+        </section>
       </main>
     </div>
   );
