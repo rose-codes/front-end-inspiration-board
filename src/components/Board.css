@@ -1,3 +1,5 @@
-.selected {
+#selected {
     background-color: #F1B6B9;
+    font-weight: bold;
 }
+

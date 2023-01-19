@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import "./Card.css";
+
 const Card = (props) => {
   return (
     <section>
-      <li>{props.message}</li>
-      <section class="likes">
+      <div class="likes">
+        <div>{props.message}</div>
         <span>❤️ {props.likes_count} Likes </span>
         <span
           onClick={() => {
@@ -21,7 +23,7 @@ const Card = (props) => {
         >
           Delete Card
         </span>
-      </section>
+      </div>
     </section>
   );
 };

@@ -8,6 +8,7 @@ const BoardList = (props) => {
     return props.boardData.map((board) => {
       return (
         <Board
+          className="board-container"
           key={board.id}
           id={board.id}
           title={board.title}
@@ -21,11 +22,13 @@ const BoardList = (props) => {
   };
 
   return (
-    <div>
+    <div className="boardlist-container">
       <h2>Boards</h2>
       <ul>{getBoardListJSX(props)}</ul>
-      <h3>Selected Board</h3>
-      <div>{props.isBoardSelected ? `${props.selectedBoard.title}` : ""}</div>
+      <h3>Selected Board </h3>
+      <div id="selected-board">
+        {props.isBoardSelected ? `${props.selectedBoard.title}` : ""}
+      </div>
     </div>
   );
 };

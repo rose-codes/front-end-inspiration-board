@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Card from "./Card";
 import PropTypes from "prop-types";
+import "./CardList.css";
 
 const CardList = (props) => {
-  // const [cardsData, setCardsData] = useState([]);
-
-  // useEffect(() => {
-  //   setCardsData(props.cardListData);
-  // }, []);
-
   const getCardListJSX = () => {
     return props.cardListData.map((card) => {
       if (card.board_id === props.boardId) {
@@ -28,9 +23,9 @@ const CardList = (props) => {
   };
 
   return (
-    <section>
+    <section className="cardlist-container">
       <h2>Cards</h2>
-      <ul>{getCardListJSX(props)}</ul>
+      <ul className="cards-holder">{getCardListJSX(props)}</ul>
     </section>
   );
 };

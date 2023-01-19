@@ -15,7 +15,7 @@ const Board = (props) => {
   return (
     <section>
       <div
-        className={selectedClass}
+        id={selectedClass}
         onClick={() => {
           onBoardClick();
         }}

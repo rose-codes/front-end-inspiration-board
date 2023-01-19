@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import "./CreateNewCard.css";
+
 const kDefaultFormState = {
   message: "",
 };
@@ -44,7 +46,7 @@ const NewCardForm = (props) => {
   };
 
   return (
-    <section>
+    <section className="cardform-container">
       <h2>Create A New Card</h2>
       <form onSubmit={onFormSubmit}>
         <div>

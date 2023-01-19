@@ -153,7 +153,6 @@ function App() {
             />
           </div>
           <div class="new-board-form-display">
-            <h2>Create a New Board</h2>
             {isBoardFormDisplayed && (
               <NewBoardForm createBoardCallback={createBoard} />
             )}

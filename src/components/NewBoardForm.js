@@ -58,7 +58,8 @@ const NewBoardForm = (props) => {
   };
 
   return (
-    <section>
+    <section className="board-form-container">
+      <h2>Create a New Board</h2>
       <form onSubmit={onFormSubmit}>
         <div>
           <label htmlFor="title">Title</label>
@@ -84,7 +85,7 @@ const NewBoardForm = (props) => {
           ></input>
         </div>
         <p>{formErrors.owner}</p>
-        <div>Preview: Title - Owner's Name</div>
+        <pre>{`Preview - ${formFields.title} - ${formFields.owner}`}</pre>
         <div>
           <input type="submit" value="Submit"></input>
         </div>
