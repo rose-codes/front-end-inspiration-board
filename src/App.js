@@ -21,7 +21,6 @@ function App() {
 
   // GET ALL BOARDS
   useEffect(() => {
-    console.log("heroku back-end:", process.env.REACT_APP_BACKEND_URL);
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/boards`)
       .then((response) => {
