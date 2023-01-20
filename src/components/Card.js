@@ -5,7 +5,7 @@ import "./Card.css";
 
 const Card = (props) => {
   return (
-    <section>
+    <li className="card-container">
       <div class="likes">
         <div>{props.message}</div>
         <span>❤️ {props.likes_count} Likes </span>
@@ -24,7 +24,7 @@ const Card = (props) => {
           Delete Card
         </span>
       </div>
-    </section>
+    </li>
   );
 };
 
