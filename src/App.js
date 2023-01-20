@@ -7,8 +7,8 @@ import BoardList from "./components/BoardList.js";
 
 import "./App.css";
 
-// const kBaseUrl = 'https://qp-inspo-board-23.herokuapp.com/boards'
-const kBaseUrl = "http://127.0.0.1:5000/";
+const kBaseUrl = "https://qp-inspo-board-23.herokuapp.com/boards";
+// const kBaseUrl = "http://127.0.0.1:5000/";
 
 function App() {
   const [selectedBoard, setSelectedBoard] = useState({
