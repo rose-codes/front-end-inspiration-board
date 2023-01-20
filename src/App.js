@@ -152,17 +152,14 @@ function App() {
               boardData={boardsData}
               selectedBoardCallback={toggleSelectBoard}
               isBoardSelected={isBoardSelected}
+              isBoardFormDisplayed={isBoardFormDisplayed}
+              boardFormButtonHandler={boardFormButtonHandler}
             />
           </div>
           <div class="new-board-form-display">
             {isBoardFormDisplayed && (
               <NewBoardForm createBoardCallback={createBoard} />
             )}
-            <button type="button" onClick={boardFormButtonHandler}>
-              {isBoardFormDisplayed
-                ? "Hide Create Board Form"
-                : "Show Create Board Form"}
-            </button>
           </div>
         </section>
         <section className="card_container">

@@ -63,7 +63,9 @@ const NewCardForm = (props) => {
         </div>
         <pre>{`Preview - ${formFields.message}`}</pre>
         <div>
-          <input type="submit" value="Submit"></input>
+          <button className="new-card-submit" type="submit" value="Submit">
+            Submit
+          </button>
         </div>
       </form>
     </section>

@@ -1,31 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// import "./Card.css";
+import "./Card.css";
 
 const Card = (props) => {
   return (
     <li className="card-container">
       <div className="card-message">{props.message}</div>
-      {/* <section className="card-events"> */}
       <div class="likes">
-        <span>❤️ {props.likes_count} Likes </span>
+        <span>{props.likes_count} ❤️ </span>
         <span
+          className="arrow"
           onClick={() => {
             props.increaseLikesCount(props.card);
           }}
         >
-          +1{" "}
+          ↑{" "}
         </span>
-        <span
+        <div
+          className="delete"
           onClick={() => {
             props.deleteCard(props.card);
           }}
         >
           Delete Card
-        </span>
+        </div>
       </div>
-      {/* </section> */}
     </li>
   );
 };
