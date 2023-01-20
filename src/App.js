@@ -7,6 +7,8 @@ import BoardList from "./components/BoardList.js";
 
 import "./App.css";
 
+const kBaseUrl = "https://qp-inspo-board-23.herokuapp.com";
+
 function App() {
   const [selectedBoard, setSelectedBoard] = useState({
     title: "",
@@ -22,7 +24,7 @@ function App() {
   // GET ALL BOARDS
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/boards`)
+      .get(`${kBaseUrl}/boards`)
       .then((response) => {
         const boardsList = response.data.map((board) => {
           return {
@@ -48,7 +50,7 @@ function App() {
     };
 
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/boards`, newlyCreatedBoard)
+      .post(`${kBaseUrl}/boards`, newlyCreatedBoard)
       .then((response) => {
         newBoardList.push(response.data);
         setBoardsData(newBoardList);
@@ -67,10 +69,7 @@ function App() {
     };
 
     axios
-      .post(
-        `${process.env.REACT_APP_BACKEND_URL}/boards/${selectedBoardId}/cards`,
-        newlyCreatedCard
-      )
+      .post(`${kBaseUrl}/boards/${selectedBoardId}/cards`, newlyCreatedCard)
       .then((response) => {
         newCardList.push(response.data);
         setCardsData(newCardList);
@@ -83,7 +82,7 @@ function App() {
   // SELECT BOARD CALLBACK FUNCTION
   const toggleSelectBoard = (clickedId) => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/boards/${clickedId}`)
+      .get(`${kBaseUrl}/boards/${clickedId}`)
       .then((response) => {
         if (response.data.id === selectedBoardId) {
           setIsBoardSelected(false);
@@ -109,7 +108,7 @@ function App() {
   // INCREASE LIKES
   const increaseLikesCount = (card) => {
     axios
-      .put(`${process.env.REACT_APP_BACKEND_URL}/cards/${card.id}/like`, card)
+      .put(`${kBaseUrl}/cards/${card.id}/like`, card)
       .then((response) => {
         const newCardsData = cardsData.map((existingCard) => {
           return existingCard.id !== card.id
@@ -129,7 +128,7 @@ function App() {
       return existingCard.id !== card.id && existingCard;
     });
     axios
-      .delete(`${process.env.REACT_APP_BACKEND_URL}/cards/${card.id}`)
+      .delete(`${kBaseUrl}/cards/${card.id}`)
       .then(() => setCardsData(newCardsData))
       .catch((error) => {
         console.log(error.message);
