@@ -7,7 +7,7 @@ import BoardList from "./components/BoardList.js";
 
 import "./App.css";
 
-// const kBaseUrl = 'https://task-list-api-c17.herokuapp.com';
+// const kBaseUrl = 'https://qp-inspo-board-23.herokuapp.com/boards'
 const kBaseUrl = "http://127.0.0.1:5000/";
 
 function App() {
@@ -150,17 +150,14 @@ function App() {
               boardData={boardsData}
               selectedBoardCallback={toggleSelectBoard}
               isBoardSelected={isBoardSelected}
+              isBoardFormDisplayed={isBoardFormDisplayed}
+              boardFormButtonHandler={boardFormButtonHandler}
             />
           </div>
           <div class="new-board-form-display">
             {isBoardFormDisplayed && (
               <NewBoardForm createBoardCallback={createBoard} />
             )}
-            <button type="button" onClick={boardFormButtonHandler}>
-              {isBoardFormDisplayed
-                ? "Hide Create Board Form"
-                : "Show Create Board Form"}
-            </button>
           </div>
         </section>
         <section className="card_container">

@@ -87,7 +87,9 @@ const NewBoardForm = (props) => {
         <p>{formErrors.owner}</p>
         <pre>{`Preview - ${formFields.title} - ${formFields.owner}`}</pre>
         <div>
-          <input type="submit" value="Submit"></input>
+          <button type="submit" value="Submit" className="submit-button">
+            Submit
+          </button>
         </div>
       </form>
     </section>

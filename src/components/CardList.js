@@ -9,6 +9,7 @@ const CardList = (props) => {
       if (card.board_id === props.boardId) {
         return (
           <Card
+            className="card-item"
             key={card.id}
             card={card}
             id={card.id}
@@ -27,7 +28,6 @@ const CardList = (props) => {
       <div className="cards-list-div">
         <ul className="cards-holder">{getCardListJSX(props)}</ul>
       </div>
-      {/* <ul className="cards-holder">{getCardListJSX(props)}</ul> */}
     </section>
   );
 };

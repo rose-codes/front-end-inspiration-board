@@ -24,6 +24,15 @@ const BoardList = (props) => {
   return (
     <div className="boardlist-container">
       <h2>Boards</h2>
+      <button
+        className="hide-button"
+        type="button"
+        onClick={props.boardFormButtonHandler}
+      >
+        {props.isBoardFormDisplayed
+          ? "Hide Create Board Form"
+          : "Show Create Board Form"}
+      </button>
       <ul className="board-list-display">{getBoardListJSX(props)}</ul>
       <h3>Selected Board </h3>
       <div id="selected-board">
