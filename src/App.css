@@ -25,12 +25,23 @@ h1 {
 }
 
 .main_container {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-around; */
+  flex: 0 1 auto;
 }
 
-.board_container, .card_container {
+.board_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.card_container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+.App {
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  min-height: 100vh;
 }

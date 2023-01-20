@@ -24,8 +24,10 @@ const CardList = (props) => {
 
   return (
     <section className="cardlist-container">
-      <h2>Cards</h2>
-      <ul className="cards-holder">{getCardListJSX(props)}</ul>
+      <div className="cards-list-div">
+        <ul className="cards-holder">{getCardListJSX(props)}</ul>
+      </div>
+      {/* <ul className="cards-holder">{getCardListJSX(props)}</ul> */}
     </section>
   );
 };

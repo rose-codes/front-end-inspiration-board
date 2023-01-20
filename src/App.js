@@ -165,6 +165,7 @@ function App() {
         </section>
         <section className="card_container">
           <div>
+            <h2>Cards</h2>
             {isBoardSelected && (
               <CardList
                 boardId={selectedBoardId}

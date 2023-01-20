@@ -1,12 +1,14 @@
 .card-container {
     border: 1px black solid;
     padding: 1rem 1rem;
-    display: grid;
-    grid-template-rows: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 50%;
+    /* flex-basis: 0; */
 }
 
 .card-message {
-    font-size: 1.25em;
     font-weight: bold;
-    grid-row: 1 / 2
+    font-size: 1.25rem;
 }

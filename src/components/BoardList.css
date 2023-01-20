@@ -6,14 +6,20 @@ ul {
 .boardlist-container {
     display: flex;
     flex-direction: column;
-    background-color: rgb(241,183,185, 0.4);
+    /* background-color: rgb(241,183,185, 0.4);
     border-style: solid;
-    border-radius: 20px;
+    border-radius: 20px; */
     padding-left: 10rem;
     padding-right: 10rem;
     padding-bottom: 1rem
 ;
 
+}
+
+.board-list-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 h2, h3 {

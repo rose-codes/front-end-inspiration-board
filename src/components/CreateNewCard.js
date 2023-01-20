@@ -50,7 +50,7 @@ const NewCardForm = (props) => {
       <h2>Create A New Card</h2>
       <form onSubmit={onFormSubmit}>
         <div>
-          <label htmlFor="message">Message</label>
+          <label htmlFor="message">Message </label>
           <input
             type="text"
             id="message"

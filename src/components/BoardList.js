@@ -24,7 +24,7 @@ const BoardList = (props) => {
   return (
     <div className="boardlist-container">
       <h2>Boards</h2>
-      <ul>{getBoardListJSX(props)}</ul>
+      <ul className="board-list-display">{getBoardListJSX(props)}</ul>
       <h3>Selected Board </h3>
       <div id="selected-board">
         {props.isBoardSelected ? `${props.selectedBoard.title}` : ""}

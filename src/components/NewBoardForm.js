@@ -62,7 +62,7 @@ const NewBoardForm = (props) => {
       <h2>Create a New Board</h2>
       <form onSubmit={onFormSubmit}>
         <div>
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">Title </label>
           <input
             type="text"
             id="title"
@@ -74,7 +74,7 @@ const NewBoardForm = (props) => {
         </div>
         <p>{formErrors.title}</p>
         <div>
-          <label htmlFor="owner">Owner's Name</label>
+          <label htmlFor="owner">Owner's Name </label>
           <input
             type="text"
             id="owner"
