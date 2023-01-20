@@ -3,3 +3,7 @@
     font-weight: bold;
 }
 
+.board-container {
+    border: 1px black solid;
+    padding: 2rem 2.5rem;
+}

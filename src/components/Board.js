@@ -13,7 +13,7 @@ const Board = (props) => {
       : "";
 
   return (
-    <section>
+    <li className="board-container">
       <div
         id={selectedClass}
         onClick={() => {
@@ -22,7 +22,7 @@ const Board = (props) => {
       >
         {props.title}
       </div>
-    </section>
+    </li>
   );
 };
 
